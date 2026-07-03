@@ -30,17 +30,37 @@ def check_dependencies():
 
 
 def get_weather_forecast():
-    url = "https://api.open-meteo.com/v1/forecast"
+    url = "https://archive-api.open-meteo.com/v1/archive"
     params = {
-        "latitude": 48.7758,   # Stuttgart
-        "longitude": 9.1829,
-        "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum",
+        "latitude": 49.1427,    # Heilbronn
+        "longitude": 9.2109,
+        "start_date": "2023-01-01",
+        "end_date": "2026-07-01",
+        "daily": "temperature_2m_max,temperature_2m_min",
         "timezone": "Europe/Berlin"
     }
     response = requests.get(url, params=params)
     data = response.json()
-    return (data["daily"])
+    return (data)
 
+
+def plot(data):
+    plt.figure(figsize=(20, 6))
+    plt.plot(data["daily"]["time"], data["daily"]["temperature_2m_max"],
+             label="Max temp", color="red")
+    plt.plot(data["daily"]["time"], data["daily"]["temperature_2m_min"],
+             label="Min temp", color="blue")
+    plt.axvline("2024-01-01", color="gray", linestyle="--")
+    plt.axvline("2025-01-01", color="gray", linestyle="--")
+    plt.axvline("2026-01-01", color="gray", linestyle="--")
+    plt.xticks(["2024-01-01", "2025-01-01", "2026-01-01"],
+               ["2024", "2025", "2026"])
+    plt.xlabel("Time")
+    plt.ylabel("Temperature")
+    plt.title("Daily temperature range in Heilbronn (Jan 2023 to Jul 2026)")
+    plt.legend()
+    plt.savefig("matrix_analysis.png")
+    plt.show()
 
 
 def main():
@@ -48,12 +68,11 @@ def main():
     check_dependencies()
     print("\nAnalyzing Matrix data...")
     data = get_weather_forecast()
-    # data = (np.arange(1000),
-    #         np.random.rand(1000))
     print("Processing 1000 data points...")
     print("Generating visualization...")
-    plt.plot(data["time"], data["temperature_2m_max"])
-    plt.show()
+    plot(data)
+    print("\nAnalysis complete!")
+    print("Results saved to: matrix_analysis.png")
 
 
 if __name__ == "__main__":
