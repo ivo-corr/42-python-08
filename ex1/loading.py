@@ -1,5 +1,6 @@
 import importlib.util
 from importlib.metadata import version
+import sys
 try:
     import pandas as pd
     import numpy as np
@@ -21,11 +22,19 @@ def check_dependencies():
         dmsg = d.split(" ", 1)[1]
         if importlib.util.find_spec(dname) is None:
             print(f"[KO] '{dname}' not installed")
-            print("\tInstall it with:\n\tpip install -r requirements.txt")
+
             ko = True
         else:
             print(f"[OK] {dname} ({version(dname)}) - {dmsg} ready")
     if (ko):
+        print("\n[ERROR] Some dependencies are missing, "
+              "\n\tinstall them with one of the following\n\tcommands:\n")
+        if ("pypoetry" in sys.executable):
+            print("\t* poetry install")
+            print("\t* poetry add [package name]\n")
+        else:
+            print("\t* pip install -r requirements.txt")
+            print("\t* pip install [package name]\n")
         exit()
 
 

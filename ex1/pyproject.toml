@@ -1,15 +1,17 @@
-package-mode = false
-[tool.poetry]
+[project]
 name = "ex1"
 version = "0.1.0"
 description = "First Poetry exercise"
-authors = ["ivo <icorrale@student.42heilbronn.de>"]
+authors = [{name = "ivo", email= "icorrale@student.42heilbronn.de"}]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy==2.2.6",
+    "matplotlib==3.10.9",
+    "requests==2.31.0"
+]
 
-[tool.poetry.dependencies]
-python = ">=3.10"
-pandas = ">=2.3.3,<4.0.0"
-numpy = "2.2.6"
-matplotlib = "3.10.9"
+[tool.poetry]
+package-mode = false
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
