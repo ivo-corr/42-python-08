@@ -22,7 +22,6 @@ def check_dependencies():
         dmsg = d.split(" ", 1)[1]
         if importlib.util.find_spec(dname) is None:
             print(f"[KO] '{dname}' not installed")
-
             ko = True
         else:
             print(f"[OK] {dname} ({version(dname)}) - {dmsg} ready")
