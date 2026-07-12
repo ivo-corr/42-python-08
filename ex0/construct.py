@@ -19,8 +19,9 @@ if __name__ == "__main__":
     else:
         print("\nMATRIX STATUS: Welcome to the construct\n")
         print(f"Current python: {sys.executable}")
-        env_path: str = os.environ.get("VIRTUAL_ENV")
-        print(f"Virtual Environment: {env_path.split('/')[-1]}")
+        env_path: str | None = os.environ.get("VIRTUAL_ENV")
+        if env_path:
+            print(f"Virtual Environment: {env_path.split('/')[-1]}")
         print(f"Environment Path: {env_path}\n")
         print("SUCCESS: You're in an isolated environment!")
         print("Safe to install packages without affecting the global system")
