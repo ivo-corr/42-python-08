@@ -1,6 +1,7 @@
 import importlib.util
 from importlib.metadata import version
 import sys
+import typing
 try:
     import pandas as pd
     import numpy as np
@@ -10,7 +11,7 @@ except ImportError:
     pass
 
 
-def check_dependencies():
+def check_dependencies() -> None:
     print("Checking dependencies: ")
     ko = False
     dependencies = ["pandas Data manipulation",
@@ -37,9 +38,9 @@ def check_dependencies():
         exit()
 
 
-def get_weather_forecast():
-    url = "https://archive-api.open-meteo.com/v1/archive"
-    params = {
+def get_weather_forecast() -> dict[str, typing.Any]:
+    url: str = "https://archive-api.open-meteo.com/v1/archive"
+    params: dict[str, int | float | str] = {
         "latitude": 49.1427,    # Heilbronn
         "longitude": 9.2109,
         "start_date": "2023-01-01",
@@ -47,13 +48,14 @@ def get_weather_forecast():
         "daily": "temperature_2m_max,temperature_2m_min",
         "timezone": "Europe/Berlin"
     }
-    response = requests.get(url, params=params)
-    data = response.json()
+    response: requests.Response = requests.get(url, params=params)
+    data: dict[str, typing.Any] = response.json()
     return (data)
 
 
-def plot(data):
+def plot(data: dict[str, typing.Any]) -> None:
     plt.figure(figsize=(20, 6))
+    print(type(data))
     plt.plot(data["daily"]["time"], data["daily"]["temperature_2m_max"],
              label="Max temp", color="red")
     plt.plot(data["daily"]["time"], data["daily"]["temperature_2m_min"],
@@ -71,11 +73,11 @@ def plot(data):
     plt.show()
 
 
-def main():
+def main() -> None:
     print("\nLOADING STATUS: Loading programs...\n")
     check_dependencies()
     print("\nAnalyzing Matrix data...")
-    data = get_weather_forecast()
+    data: dict[str, int | float | str] = get_weather_forecast()
     print("Processing 1000 data points...")
     print("Generating visualization...")
     plot(data)

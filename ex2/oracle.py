@@ -21,7 +21,7 @@ if __name__ == "__main__":
               "Online" if os.getenv("ZION_ENDPOINT") else "Offline")
 
         print("[OK] No hardcoded secrets detected")
-        if (not ("MATRIX_MODE" in os.environ and 
+        if (not ("MATRIX_MODE" in os.environ and
                  "DATABASE_URL" in os.environ and
                  "API_KEY" in os.environ and
                  "LOG_LEVEL" in os.environ and
